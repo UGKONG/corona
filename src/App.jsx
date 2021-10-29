@@ -13,19 +13,21 @@ const App = () => {
   const [load, setLoad] = useState(true);
 
   useEffect(() => {
-    fetch(url).then((res) => {
-      return res.json();
-    }).then(({DATA}) => {
-      setList(DATA);
-      setLoad(false);
-    });
+    fetch(url).then((res) => res.json()).then(
+      ({DATA}) => {
+        setList(DATA);
+        setLoad(false);
+      }
+    );
   }, []);
 
-  const changeValue = useCallback((e) => {
-    setValue(e.target.value);
-  }, [setValue]);
+  const changeValue = useCallback((e) => setValue(e.target.value), [setValue]);
 
-  const titleMemo = useMemo(() => titles.map(title => <th key={ title }>{ title }</th>), []);
+  const allCountMemo = useMemo(() => '총 확진자 수: ' + (list?.length ?? 0) + '명', []);
+
+  const titleMemo = useMemo(() => <tr>{ titles.map(title => <th key={ title }>{ title }</th>) }</tr>, []);
+
+  const loadMemo = useMemo(() => <tr><td colSpan={titles.length}>로딩중..</td></tr>, []);
 
   const listMemo = useMemo(() => (
     list?.map((li, i) => {
@@ -56,16 +58,10 @@ const App = () => {
   return (
     <main>
       <Input onChange={ changeValue } placeholder="검색어를 입력하세요. (지역 검색)" />
-      <small>총 확진자 수: { list?.length ?? 0 }명</small>
+      <small>{ allCountMemo }</small>
       <Table>
-        <thead>
-          <tr>
-            { titleMemo }
-          </tr>
-        </thead>
-        <tbody>
-          { load ? <tr><td colSpan={titles.length}>로딩중..</td></tr> : listMemo }
-        </tbody>
+        <thead>{ titleMemo }</thead>
+        <tbody>{ load ? loadMemo : listMemo }</tbody>
       </Table>
     </main>
   );
