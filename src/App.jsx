@@ -23,7 +23,7 @@ const App = () => {
 
   const changeValue = useCallback((e) => setValue(e.target.value), [setValue]);
 
-  const allCountMemo = useMemo(() => '총 확진자 수: ' + (list?.length ?? 0) + '명', []);
+  const allCountMemo = useMemo(() => '총 확진자 수: ' + (list?.length ?? 0) + '명', [list]);
 
   const titleMemo = useMemo(() => <tr>{ titles.map(title => <th key={ title }>{ title }</th>) }</tr>, []);
 
