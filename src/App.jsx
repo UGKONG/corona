@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import Styled from 'styled-components';
 
 const App = () => {
-  const url = 'https://sanguk-77ee5-default-rtdb.firebaseio.com/corona.json';
+  const url = '/test.json';
   const titles = ['No', '지역', '접촉력', '확진일', '노출여부', '연번', '등록일', '상태', '수정일', '여행력'];
   const props = [
     'corona19_area', 'corona19_contact_history', 'corona19_date', 'corona19_display_yn', 'corona19_id', 
@@ -14,8 +14,8 @@ const App = () => {
 
   useEffect(() => {
     fetch(url).then((res) => res.json()).then(
-      ({DATA}) => {
-        setList(DATA);
+      (data) => {
+        setList(data);
         setLoad(false);
       }
     );
